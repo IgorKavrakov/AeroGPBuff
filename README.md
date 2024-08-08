@@ -2,15 +2,26 @@
 AeroGPBuff: Aeroelastic Analyses of Structures in Turbulent Wind Conditions using Gaussian Processes
 
 Cite:
-Kavrakov, I., McRobie, A., and Morgenthal, G. 2022. Data-driven Aerodynamic Analysis of Structures using Gaussian Processes. J. Wind Eng. Ind. Aerodyn., 146 (9), 040200093. https://doi.org/10.1016/j.jweia.2022.104911
+To cite the paper, please use:
+```
+@article{Kavrakov2024AeroGPBuff,
+title = {Aeroelastic Analyses of Structures in Turbulent Wind Conditions using Gaussian Processes},
+journal = {Journal of Wind Engineering and Industrial Aerodynamics},
+pages = {103534},
+year = {2023},
+issn = {0266-8920},
+doi = {https://doi.org/10.1016/j.probengmech.2023.103534},
+author = {Igor Kavrakov, Guido Morgenthal and Allan McRobie}
+}
+```
 
 AeroGPBuff is a Matlab-based computer code that verifies an aerodynamic force model based on Gaussian Processes (GP) with aerodynamic priors for aerodynamic analyses of linelike structures in turbulent wind conditions.
-The scripts Example1c_FlatPlateAerodynamicPrior_Forced.m, Example1d_FlatPlateCoupledMean_Flutter.m and Example1e_FlatPlateCoupledMean_Buffeting.m contain the verification of the model for a Flat Plate.
+The scripts `Example1c_FlatPlateAerodynamicPrior_Forced.m`, `Example1d_FlatPlateCoupledMean_Flutter.m` and `Example1e_FlatPlateCoupledMean_Buffeting.m` contain the verification of the model for a Flat Plate.
 The folder GP includes an implementation of Gaussian Processes, while the folder Example1_FlatPlateAnalytical contains the details for the analytical flat plate analysis and plots.
 The details on of the utilized methods are given in the abovementioned article.
 
 The accepted manuscript can be found on arXiv:
-https://arxiv.org/abs/2103.13877
+https://arxiv.org/abs/2406.15603 
 
 %%%%%%%%% COPYRIGHT NOTICE %%%%%%%%% 
 
