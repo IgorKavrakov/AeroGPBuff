@@ -36,7 +36,7 @@ fprintf(['AeroGPBuff: Aeroelastic Analyses of Structures in Turbulent Wind Condi
 
 %% Control
 %GP properties
-GP.Par.Train=1;     %If Train=0 - no training; Hyperparameters are loaded (default as in Github)
+GP.Par.Train=0;     %If Train=0 - no training; Hyperparameters are loaded (default as in Github)
 GP.Par.Mean=1;      %Include mean based on linear quasi steady theory
 GP.Par.Lag=200;     %Regressors for S_alpha - alpha,. Note if S_alpha=1, it means we take 1 previous i.e. Alpha(i-1).
 GP.Par.jitter=eps;  %Jitter term
@@ -68,7 +68,7 @@ FP.Train.Coupled=1;     %Consider the same number of samples for buffeting & sel
 %% Training
 rng(1); %Reproducibility
 if GP.Par.Train
-    input('!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!\n\nThe training of the GP model is computationally expensive (~3-4h - Linux server).\nFor prediction, use the determined hyperparameters by setting GP.Par.Train=0.\n\nPress any key to continue or cancel (CTRL+C).');        
+    input('!!!!!!!!!!!!!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!\n\nThe training of the GP model is computationally expensive (~16h - Linux server).\nFor prediction, use the determined hyperparameters by setting GP.Par.Train=0.\n\nPress any key to continue or cancel (CTRL+C).');        
     FP = Example1_FlatPlateAnalytical(FP,GP.Par.Lag); %FP model analytical
     GP.Par.Indx=sort(randperm(FP.Train.Samp,floor(FP.Train.Samp/GP.Par.SubSet))); %Subset of regressors for training  
 
@@ -265,7 +265,7 @@ for i=1:length(FP.Pred.VrW)
   [GP.Pred(11).y(StepsVr(i):StepsVr(i+1)-1),~,m(StepsVr(i):StepsVr(i+1)-1)]=GP_Process_Predict(GP.Train(11).x,GP.Train(11).y,GP.Pred(11).x((StepsVr(i):StepsVr(i+1)-1),:),GP.Train(11).hyp,GP.Train(11).L_Kern,GP.meanFlag(11)); %Predictions
 end
 
-save('Example1_FlatPlateAnalytical/Ex1c_Out','GP','FP','-v7.3');
+% save('Example1_FlatPlateAnalytical/Ex1c_Out','GP','FP','-v7.3');
 %% Plots
-load('Example1_FlatPlateAnalytical/Ex1c_Out','GP','FP');
+% load('Example1_FlatPlateAnalytical/Ex1c_Out','GP','FP');
 Example1c_Plots(GP,FP); 

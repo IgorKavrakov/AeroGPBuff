@@ -107,7 +107,7 @@ for j=1:length(FP(1).Par.U_r)
 
 end
 
-save('Example1_FlatPlateAnalytical/Ex1d_Out','GP','FP','-v7.3');
+% save('Example1_FlatPlateAnalytical/Ex1d_Out','GP','FP','-v7.3');
 %% Plots
-load('Example1_FlatPlateAnalytical/Ex1d_Out','GP','FP');
+% load('Example1_FlatPlateAnalytical/Ex1d_Out','GP','FP');
 Example1d_Plots(GP,FP)

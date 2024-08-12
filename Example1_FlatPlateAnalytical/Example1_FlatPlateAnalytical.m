@@ -22,6 +22,7 @@ function [FP] = Example1_FlatPlateAnalytical(FP,Lag)
 
 %% Training
 ds=FP.Par.ds;
+if ~isfield(FP,'Pred')||strcmp(FP.Pred.Excitation,'Train') %Training and prediction set are same
 VrR=FP.Train.Vr;
 Alpha_AmpR=FP.Train.Alpha_AmpRel;
 
@@ -100,62 +101,82 @@ end
     TPoint= TPoint*length(FP.Train.Alpha_STD);
     tau=ds*(0:1:TPoint-1).'; %Reduced time
     
-% Buffeting training
-if isfield(FP.Train,'Buf')&&FP.Train.Buf==1
+    % Buffeting training
+    if isfield(FP.Train,'Buf')&&FP.Train.Buf==1
 
-    r    = FP.Par.r;
-    Iw   = FP.Par.Iw;
-    Tw   = FP.Par.Tw;    
-    Cyclb= FP.Train.Cycl_b; 
-    Vr_b = FP.Train.Vr_b;
-    tau_max = Vr_b * Cyclb;
-    
-    if ~isfield(FP.Train,'Coupled')||FP.Train.Coupled~=1
-    tau_max = max(tau_max,r/0.01);
-    else
-    TPointS=Cycl*VrR(end)./ds;
-    tau_max = TPointS*ds;
-    end
-    
-    tau_b = 0:ds:tau_max-ds;
-    TPointB = length(tau_b);    
-    dk= 1/tau_max;
-    kw=(1:1:TPointB/2).*dk;  
-    tau_b=ds*(0:1:TPointB-1).'; %Reduced time
-     
-    alpha_w=[];
-    alpha_w_d=[];
-    CLw=[];
-    CMw=[];
-    Sw=[];
-    for i=1:length(Iw)
-        [~,Sw1,w,w_conv] = FP_Analy_Buf (Iw(i),Tw,kw,r,TPointB);
-        Sw = [Sw Sw1'];     
-        alpha_w_l = atan(w');
-        alpha_w_l(:,2:Lag)=0; 
-        for ll=1:Lag %Regressors
-            alpha_w_l(1+ll:end,1+ll)=alpha_w_l(1:TPointB-ll,1);   
+        r    = FP.Par.r;
+        Iw   = FP.Par.Iw;
+        Tw   = FP.Par.Tw;    
+        Cyclb= FP.Train.Cycl_b; 
+        Vr_b = FP.Train.Vr_b;
+        tau_max = Vr_b * Cyclb;
+
+        if ~isfield(FP.Train,'Coupled')||FP.Train.Coupled~=1
+        tau_max = max(tau_max,r/0.01);
+        else
+        TPointS=Cycl*VrR(end)./ds;
+        tau_max = TPointS*ds;
         end
-        
-        alpha_w_d_l=(alpha_w_l(2:end,1)-alpha_w_l(1:end-1,1))./ds;
-        alpha_w_d_l(end+1)=0;
-        alpha_w_d = [alpha_w_d;alpha_w_d_l];      % Concattanate
-        alpha_w   = [alpha_w;alpha_w_l];
-        CLw= [CLw;-2*pi*(w_conv-mean(w_conv))];
-        CMw= [CMw;pi/2*(w_conv-mean(w_conv))];
+
+        tau_b = 0:ds:tau_max-ds;
+        TPointB = length(tau_b);    
+        dk= 1/tau_max;
+        kw=(1:1:TPointB/2).*dk;  
+        tau_b=ds*(0:1:TPointB-1).'; %Reduced time
+
+        alpha_w=[];
+        alpha_w_d=[];
+        CLw=[];
+        CMw=[];
+        Sw=[];
+        for i=1:length(Iw)
+            [~,Sw1,w,w_conv] = FP_Analy_Buf (Iw(i),Tw,kw,r,TPointB);
+            Sw = [Sw Sw1'];     
+            alpha_w_l = atan(w');
+            alpha_w_l(:,2:Lag)=0; 
+            for ll=1:Lag %Regressors
+                alpha_w_l(1+ll:end,1+ll)=alpha_w_l(1:TPointB-ll,1);   
+            end
+
+            alpha_w_d_l=(alpha_w_l(2:end,1)-alpha_w_l(1:end-1,1))./ds;
+            alpha_w_d_l(end+1)=0;
+            alpha_w_d = [alpha_w_d;alpha_w_d_l];      % Concattanate
+            alpha_w   = [alpha_w;alpha_w_l];
+            CLw= [CLw;-2*pi*(w_conv-mean(w_conv))];
+            CMw= [CMw;pi/2*(w_conv-mean(w_conv))];
+
+        end
+            TPointB = TPointB*length(Iw);
+            tau_b=ds*(0:1:TPointB-1).'; %Reduced time
+    else
+        alpha_w = [];
+        alpha_w_d = [];
+        CLw = [];
+        CMw = [];
+        TPointB = [];
+        tau_b = [];
+        Sw = [];
+        kw = [];
 
     end
-        TPointB = TPointB*length(Iw);
-        tau_b=ds*(0:1:TPointB-1).'; %Reduced time
-else
-    alpha_w = [];
-    alpha_w_d = [];
-    CLw = [];
-    CMw = [];
-    TPointB = [];
-    tau_b = [];
-    Sw = [];
-    kw = [];
+%Training
+FP.Train.alpha_h=alpha_h;
+FP.Train.alpha_h_d=alpha_h_d;
+FP.Train.alpha_a=alpha_a;
+FP.Train.alpha_a_d=alpha_a_d;
+FP.Train.CL=CL;
+FP.Train.CM=CM;
+FP.Train.Samp=TPoint;
+FP.Train.tau=tau;
+
+FP.Train.alpha_w=alpha_w;
+FP.Train.alpha_w_d=alpha_w_d;
+FP.Train.CLw=CLw;
+FP.Train.CMw=CMw;
+FP.Train.Samp_b=TPointB;
+FP.Train.tau_b=tau_b;
+FP.Train.Sw = Sw;
+FP.Train.k  = kw;    
     
 end
 
@@ -460,25 +481,6 @@ end
     end
 
 %% Store
-%Training
-FP.Train.alpha_h=alpha_h;
-FP.Train.alpha_h_d=alpha_h_d;
-FP.Train.alpha_a=alpha_a;
-FP.Train.alpha_a_d=alpha_a_d;
-FP.Train.CL=CL;
-FP.Train.CM=CM;
-FP.Train.Samp=TPoint;
-FP.Train.tau=tau;
-
-FP.Train.alpha_w=alpha_w;
-FP.Train.alpha_w_d=alpha_w_d;
-FP.Train.CLw=CLw;
-FP.Train.CMw=CMw;
-FP.Train.Samp_b=TPointB;
-FP.Train.tau_b=tau_b;
-FP.Train.Sw = Sw;
-FP.Train.k  = kw;
-
 %Prediction
 FP.Pred.alpha_h=alpha_h_pr;
 FP.Pred.alpha_h_d=alpha_h_d_pr;

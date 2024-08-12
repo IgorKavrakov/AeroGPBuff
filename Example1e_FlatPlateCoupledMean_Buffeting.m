@@ -39,15 +39,18 @@ FP.Par.ds=0.05;            %Reduced time-step (Warning: be consistent with the t
 
 %Dynamic properties for buffeting analysis
 FP.Pred.Excitation='Buffeting'; %Aeroelastic simulation - Buffeting
-FP.Par.B=31;               % Width [m]
+FP.Par.B=31;            % Width [m]
 FP.Par.m=22.7400*1000;  % Mass per unit length [kg/m]
 FP.Par.I=2470*1000;     % Mass moment of inertia [kgm^2/m]
 FP.Par.fh=0.1;          % Vertical frequency [Hz]
-FP.Par.fa=0.278;          % Torsional frequency [Hz]
+FP.Par.fa=0.278;        % Torsional frequency [Hz]
 FP.Par.psi=0.003;       % Damping ratio [-]
 FP.Par.Redtime=400;     % Reduced time for analysis [-]
 FP.Par.rho=1.2;         % Density [kg/m^3]
-FP.Par.Iw=[0.05]; %Turbulence intens
+FP.Par.Iw=0.05;         %Turbulence intenssity
+FP.Par.r=2;             %Ratio lenght scale vs width Lw/B
+FP.Par.Tw=2;            %Time scale of correlation (L.U) (e.g. 3 means it takes 3 seconds for a point to travel distance equivalent to average gust length scale Lw)
+
 U_red = [3.5,...        % Test buffeting velocities [-] "reduced" wind speed
          5.0,...
          6.5,...
@@ -66,8 +69,8 @@ end
 
 %%  Aeroelastic prediction
 %Get alpha - it is not needed to be inverted every step.
-    [~,~,~,~,~,~,~,GP.Train(1).alpha]=GP_Process(GP.Train(1).x,GP.Train(1).y,GP.Train(1).x(1,:),GP.Train(1).hyp,GP.Par.jitter,GP.Par.Noise,GP.meanFlag(1)); 
-    [~,~,~,~,~,~,~,GP.Train(2).alpha]=GP_Process(GP.Train(2).x,GP.Train(2).y,GP.Train(2).x(1,:),GP.Train(2).hyp,GP.Par.jitter,GP.Par.Noise,GP.meanFlag(2)); 
+   [~,~,~,~,~,~,~,GP.Train(1).alpha]=GP_Process(GP.Train(1).x,GP.Train(1).y,GP.Train(1).x(1,:),GP.Train(1).hyp,GP.Par.jitter,GP.Par.Noise,GP.meanFlag(1)); 
+   [~,~,~,~,~,~,~,GP.Train(2).alpha]=GP_Process(GP.Train(2).x,GP.Train(2).y,GP.Train(2).x(1,:),GP.Train(2).hyp,GP.Par.jitter,GP.Par.Noise,GP.meanFlag(2)); 
 
 %% Buffeting loop
 for j=1:length(FP(1).Par.U_r)
@@ -116,7 +119,7 @@ for j=1:length(FP(1).Par.U_r)
     end
 end
 
-save('Example1_FlatPlateAnalytical/Ex1e_Out','GP','FP','-v7.3');
+% save('Example1_FlatPlateAnalytical/Ex1e_Out','GP','FP','-v7.3');
 %% Plots
-load('Example1_FlatPlateAnalytical/Ex1e_Out','GP','FP');
+% load('Example1_FlatPlateAnalytical/Ex1e_Out','GP','FP');
 Example1e_Plots(GP,FP); 
