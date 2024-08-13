@@ -14,7 +14,7 @@ addpath(genpath('GP'),'Example1_FlatPlateAnalytical');
 
 % The script includes a forced-vibration analysis with free-stream turbulence for the flat plate example for using a GP model.
 % The script is based on the aforementioned article
-% This script includes the results from Sec. 3 (Fundamental Application: Flat Plate)
+% This script includes the results from Sec. 4 (Fundamental Application: Flat Plate)
 
 %%%%%%%%% COPYRIGHT NOTICE %%%%%%%%% 
 %  This file is part of AeroGPBuff.
