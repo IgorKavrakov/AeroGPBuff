@@ -6,8 +6,8 @@ addpath(genpath('GP'),'Example1_FlatPlateAnalytical');
 % Please cite our work when you are you are using our software in your research or publications:
 
 % Kavrakov, I., Morgenthal, G., and McRobie, A. 2024. Data-driven Aeroelastic Analyses of Structures in Turbulent Wind Conditions using Enhanced Gaussian Processes with Aerodynamic Priors. 
-% J. Wind Eng. Ind. Aerodyn., 222, 104911. 
-% https://doi.org/10.1016/j.jweia.2022.104911
+% J. Wind Eng. Ind. Aerodyn., 253, 105848. 
+% https://doi.org/10.1016/j.jweia.2024.105848
 
 % Accepted manuscript on arXiv:
 % https://arxiv.org/abs/2406.15603
@@ -30,9 +30,9 @@ addpath(genpath('GP'),'Example1_FlatPlateAnalytical');
 % 
 %  You should have received a copy of the GNU General Public License
 %  along with AeroGPBuff.  If not, see <https://www.gnu.org/licenses/>.
-
+% 
 % Copyright (c) Igor Kavrakov, Guido Morgenthal, Allan McRobie 2024
-fprintf(['AeroGPBuff: Aeroelastic Analyses of Structures in Turbulent Wind Conditions using Gaussian Processes \nIgor Kavrakov, Guido Morgenthal, Allan McRobie 2024 (c) \nCite as:\n Kavrakov, I., McRobie, A., and Morgenthal, G. 2022.\n Data-driven aerodynamic analysis of structures using Gaussian Processes.\n J. Wind Eng. Ind. Aerodyn., 222, 104911.\n https://doi.org/10.1016/j.jweia.2022.104911\n\n']);
+fprintf(['AeroGPBuff: Aeroelastic Analyses of Structures in Turbulent Wind Conditions using Gaussian Processes \nIgor Kavrakov, Guido Morgenthal, Allan McRobie 2024 (c) \nCite as:\n Kavrakov, I., Morgenthal, G., and McRobie, A. 2024.\n Data-driven Aeroelastic Analyses of Structures in Turbulent Wind Conditions using Enhanced Gaussian Processes with Aerodynamic Priors. .\n J. Wind Eng. Ind. Aerodyn., 253, 105848.\n https://doi.org/10.1016/j.jweia.2024.105848\n\n']);
 
 %% Control
 FP.Par.ds=0.05;            %Reduced time-step (Warning: be consistent with the training inpu from Example 1a_FlatPlateForced.m)
