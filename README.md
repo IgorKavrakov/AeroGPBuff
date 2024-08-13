@@ -4,7 +4,7 @@ AeroGPBuff: Aeroelastic Analyses of Structures in Turbulent Wind Conditions usin
 AeroGPBuff is a Matlab-based computer code that verifies an aerodynamic force model based on Gaussian Processes (GP) with aerodynamic priors for aerodynamic analyses of linelike structures in turbulent wind conditions.
 The scripts `Example1c_FlatPlateAerodynamicPrior_Forced.m`, `Example1d_FlatPlateCoupledMean_Flutter.m` and `Example1e_FlatPlateCoupledMean_Buffeting.m` contain the verification of the model for a Flat Plate.
 The folder GP includes an implementation of Gaussian Processes, while the folder `Example1_FlatPlateAnalytical` contains the details for the analytical flat plate analysis and plots.
-The details on of the utilized methods are given in the abovementioned article.
+The details on of the utilized methods are given in the belowmentioned article.
 
 The accepted manuscript can be found on arXiv:
 https://arxiv.org/abs/2406.15603 
